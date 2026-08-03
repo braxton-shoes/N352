@@ -49,7 +49,6 @@
         
         .container { max-width: 1200px; margin: 40px auto; display: flex; flex-wrap: wrap; background: #fff; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); overflow: hidden; width: 100%; }
         
-        /* === CLASSIC GALLERY STYLES === */
         .product-gallery { flex: 1 1 600px; padding: 40px; background-color: #f8f8f8; display: flex; flex-direction: column; align-items: center; width: 100%; }
         .gallery-layout { display: flex; align-items: center; justify-content: center; gap: 20px; width: 100%; }
         
@@ -77,7 +76,6 @@
         .thumbnail:hover { opacity: 0.8; }
         .thumbnail.active { opacity: 1; border-color: #b17b44; box-shadow: 0 4px 10px rgba(177,123,68,0.3); }
 
-        /* === PRODUCT INFO === */
         .product-info { flex: 1 1 450px; padding: 50px; display: flex; flex-direction: column; justify-content: center; width: 100%; }
         h1 { font-size: 32px; margin-bottom: 10px; color: #111; line-height: 1.2; font-weight: 800; }
         
@@ -166,7 +164,6 @@
         .mobile-only { display: none; }
         .mobile-sticky-buy { display: none; }
 
-        /* === LIGHTBOX CLASSIC CSS === */
         #imageLightbox { flex-direction: column; padding: 0; background: #000; }
         .lightbox-img-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: auto; touch-action: pan-x pan-y pinch-zoom; }
         #lightboxImage { max-width: 100%; max-height: 100%; object-fit: contain; }
@@ -532,16 +529,14 @@
         }
     }
 
-    // --- КЛАСИЧНИЙ СВАЙП (1 свайп = 1 фото) ---
     let touchStartX = 0;
     let touchEndX = 0;
 
     function handleSwipeGesture() {
-        if (touchEndX < touchStartX - 40) scrollGallery(1);  // Свайп вліво -> Наступне фото
-        if (touchEndX > touchStartX + 40) scrollGallery(-1); // Свайп вправо -> Попереднє фото
+        if (touchEndX < touchStartX - 40) scrollGallery(1);  
+        if (touchEndX > touchStartX + 40) scrollGallery(-1); 
     }
 
-    // Свайп для головного фото
     const mainImgWrap = document.getElementById('mainImageWrap');
     mainImgWrap.addEventListener('touchstart', e => { 
         if(e.touches.length === 1) touchStartX = e.changedTouches[0].screenX; 
@@ -553,7 +548,6 @@
         }
     }, {passive: true});
 
-    // --- ЛУПА ДЛЯ ДЕСКТОПА ---
     const mainImage = document.getElementById('mainImage');
     mainImage.addEventListener('mousemove', function(e) {
         if(window.innerWidth > 768) {
@@ -569,7 +563,6 @@
         this.style.transform = "scale(1)";
     });
 
-    // --- ЛАЙТБОКС ТА МОДАЛКИ (Захист від подвійного history.back) ---
     function openLightbox() {
         if(window.innerWidth > 768) return; 
         const lightbox = document.getElementById('imageLightbox');
@@ -584,7 +577,7 @@
 
     function closeLightbox(e) {
         if(e && e.stopPropagation) e.stopPropagation();
-        if(e && e.target && e.target.tagName === 'IMG') return; // Дозволяємо зум по фото
+        if(e && e.target && e.target.tagName === 'IMG') return; 
         
         const lightbox = document.getElementById('imageLightbox');
         if (lightbox.style.display !== 'flex') return;
@@ -595,7 +588,6 @@
         }
     }
 
-    // Свайп всередині лайтбоксу
     const lbImgWrap = document.getElementById('lbImgWrap');
     lbImgWrap.addEventListener('touchstart', e => { 
         if(e.touches.length === 1) touchStartX = e.changedTouches[0].screenX; 
@@ -608,7 +600,6 @@
         }
     }, {passive: true});
 
-    // Свайп відгуків
     function slideReviews(direction) {
         document.getElementById('reviewsSlider').scrollBy({ left: direction * 330, behavior: 'smooth' });
     }
@@ -691,7 +682,7 @@
         document.getElementById('imageLightbox').style.display = 'none';
     });
 
-    // ПОКРАЩЕНА ПЕРЕВІРКА ТА ВІДПРАВКА ДАНИХ
+    // Відправка замовлення на захищений Cloudflare Worker
     function sendFinalOrder(e) {
         e.preventDefault();
         const btn = document.getElementById('subBtn');
@@ -705,7 +696,6 @@
         const post = document.getElementById('custPost').value.trim();
         const comment = document.getElementById('custComment').value.trim();
 
-        // 0. Захист від порожніх полів (пробілів)
         if (!firstName || !lastName || !rawPhone || !city || !post) {
             alert('❌ Будь ласка, заповніть всі обов\'язкові поля!');
             btn.disabled = false;
@@ -715,7 +705,6 @@
 
         const name = firstName + ' ' + lastName;
 
-        // 1. Перевірка імені на цифри
         if (/\d/.test(name)) {
             alert('❌ Ім\'я та Прізвище не можуть містити цифри!');
             btn.disabled = false;
@@ -723,7 +712,6 @@
             return;
         }
 
-        // 2. Перевірка телефону (мінімум 9 цифр)
         let cleanPhone = rawPhone.replace(/\D/g, ''); 
         if (cleanPhone.length < 9) {
             alert('❌ Будь ласка, введіть коректний номер телефону!');
@@ -732,7 +720,6 @@
             return; 
         }
 
-        // 3. Перевірка міста (мінімум 3 букви)
         if (city.length < 3) {
             alert('❌ Будь ласка, вкажіть повну та коректну назву населеного пункту!');
             btn.disabled = false;
@@ -740,7 +727,6 @@
             return;
         }
 
-        // 4. Перевірка пошти (має бути хоча б одна цифра відділення)
         if (!/\d/.test(post)) {
             alert('❌ Будь ласка, вкажіть НОМЕР відділення або поштомату (цифрами)!');
             document.getElementById('custPost').focus();
@@ -752,7 +738,6 @@
             document.getElementById('custPost').style.borderColor = '#ddd';
         }
 
-        // Форматування телефону для відправки
         if (cleanPhone.startsWith('380')) cleanPhone = cleanPhone.substring(2);
         else if (cleanPhone.startsWith('80')) cleanPhone = cleanPhone.substring(1);
         else if (cleanPhone.length === 9) cleanPhone = '0' + cleanPhone; 
@@ -760,39 +745,28 @@
         let displayPhone = cleanPhone; 
         let linkPhone = "38" + cleanPhone; 
 
-        function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+        const orderData = {
+            productName: "Демісезонні чоловічі мокасини",
+            colorName: activeColorName,
+            size: activeSize,
+            price: "2800",
+            name: name,
+            displayPhone: displayPhone,
+            cleanPhone: cleanPhone,
+            linkPhone: linkPhone,
+            city: city,
+            post: post,
+            comment: comment
+        };
 
-        let text = `📦 <b>НОВЕ ЗАМОВЛЕННЯ!</b>\n\nТовар: ${esc(`Демісезонні чоловічі мокасини`)}\nКолір: ${esc(activeColorName)}\nРозмір: ${esc(activeSize)}\nЦіна: 2800 грн\n\nКлієнт: ${esc(name)}\nТел: <code>${displayPhone}</code>\nНаселений пункт: ${esc(city)}\nПошта: ${esc(post)}`;
-        
-        if (comment !== "") text += `\nКоментар: ${esc(comment)}`;
-
-        const token = '8682349813:AAH8KuVg1KNY-c_nBu2EEz2l0f_1QloTqW8';
-        const chatsStr = "8345637105, -5150186307";
-        const chatIds = chatsStr.split(',').map(id => id.trim());
-
-        let replyMarkup = '';
-        if (cleanPhone.length >= 10) {
-            const kb = {
-                inline_keyboard:[[
-                        { text: "💬 Telegram", url: "https://t.me/+" + linkPhone },
-                        { text: "💜 Viber (msng.link)", url: "https://msng.link/vi/" + linkPhone }
-                    ]
-                ]
-            };
-            replyMarkup = "&reply_markup=" + encodeURIComponent(JSON.stringify(kb));
-        }
-
-        Promise.all(chatIds.map(chatId => {
-            return fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}&parse_mode=HTML${replyMarkup}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (!data.ok) console.error('Telegram error:', data.description);
-                    return data.ok; 
-                })
-                .catch(() => false); 
-        }))
-        .then(results => {
-            if (results.includes(true)) {
+        fetch('https://para-proxy.thecupoftea1000.workers.dev', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
                 if(typeof fbq === 'function') fbq('track', 'Purchase', {
                     value: Number('2800'), 
                     currency: 'UAH', 
@@ -815,14 +789,18 @@
                 document.getElementById('mainForm').style.display = 'none';
                 document.getElementById('successMsg').style.display = 'block';
                 document.getElementById('orderSummary').style.display = 'none';
-                
-                // Форма очищується ТІЛЬКИ після успішної відправки
                 document.getElementById('mainForm').reset(); 
             } else {
-                alert('Помилка! Повідомлення не відправлено. Перевірте Token та ID чатів.');
+                alert('Помилка при відправці замовлення.');
                 btn.disabled = false;
                 btn.innerText = 'Підтвердити замовлення';
             }
+        })
+        .catch(err => {
+            console.error('Fetch error:', err);
+            alert('Помилка мережі. Спробуйте ще раз.');
+            btn.disabled = false;
+            btn.innerText = 'Підтвердити замовлення';
         });
     }
 
@@ -831,7 +809,6 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in-section').forEach(s => observer.observe(s));
 
-    // Ініціалізація сторінки
     const urlParams = new URLSearchParams(window.location.search);
     const variantIndex = urlParams.get('v');
     
