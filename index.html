@@ -237,7 +237,7 @@
             <div class="price-wrap">
                 <div style="display: flex; flex-direction: column;">
                     
-                    <span class="price-new">2800 ₴</span>
+                    <span class="price-new">2950 ₴</span>
                 </div>
                 <span class="in-stock">В наявності</span>
             </div>
@@ -362,7 +362,7 @@
     <div class="mobile-sticky-buy mobile-only">
         <div class="sticky-price">
             
-            <span class="st-new">2800 ₴</span>
+            <span class="st-new">2950 ₴</span>
         </div>
         <button class="buy-btn" onclick="openOrderModal()">🛒 Купити</button>
     </div>
@@ -635,7 +635,7 @@
             <div><strong>Модель:</strong> Демісезонні чоловічі мокасини</div>
             <div style="margin: 5px 0;"><strong>Колір:</strong> ${activeColorName}</div>
             <div><strong>Розмір:</strong> ${activeSize}</div>
-            <div style="margin-top: 10px; font-size: 18px; color: #d32f2f;"><strong>Сума:</strong> <span style="font-weight: 800;">2800 ₴</span></div>
+            <div style="margin-top: 10px; font-size: 18px; color: #d32f2f;"><strong>Сума:</strong> <span style="font-weight: 800;">2950 ₴</span></div>
         `;
 
         document.getElementById('mainForm').style.display = 'block';
@@ -749,7 +749,7 @@
             productName: "Демісезонні чоловічі мокасини",
             colorName: activeColorName,
             size: activeSize,
-            price: "2800",
+            price: "2950",
             name: name,
             displayPhone: displayPhone,
             cleanPhone: cleanPhone,
@@ -768,7 +768,7 @@
         .then(data => {
             if (data.success) {
                 if(typeof fbq === 'function') fbq('track', 'Purchase', {
-                    value: Number('2800'), 
+                    value: Number('2950'), 
                     currency: 'UAH', 
                     content_name: 'Демісезонні чоловічі мокасини ' + activeColorName
                 });
@@ -776,7 +776,7 @@
                 if(window.ttq) {
                     window.ttq.track('CompletePayment', {
                         content_type: 'product',
-                        value: Number('2800'),
+                        value: Number('2950'),
                         currency: 'UAH',
                         contents:[{
                             content_id: 'para_item',
